@@ -43,11 +43,19 @@ var geocodeAddress = function(address) {
       data: {location: {address: address}},
       success: function(data){
         console.log(data);
+     
       }
     })
 }
 
+// var parseFour = function(data) {
+//   var base = data["response"]["groups"][0]["items"][i]["venue"]["name"]
 
+
+//   return {
+//     name: base[0]["venue"]["name"]
+//   }
+// }
 
 // STEP 1 = GEOCODE address on submit from the form
 // STEP 2 = make ajax call to venue#near to grab a list of restaurants from my own database

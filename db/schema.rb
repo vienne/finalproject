@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150329135132) do
+ActiveRecord::Schema.define(version: 20150331192329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20150329135132) do
     t.string "critical_flag"
     t.string "score"
     t.string "grade"
-    t.string "grade_date"
+    t.date   "grade_date"
     t.date   "record_date"
     t.string "inspection_type"
   end
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20150329135132) do
     t.string   "building"
     t.string   "street"
     t.string   "zip"
+    t.string   "grade"
   end
 
   create_table "violations", force: :cascade do |t|

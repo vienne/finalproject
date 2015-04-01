@@ -45,11 +45,25 @@ FROM all_data
 SQL
 
 sql.execute <<-SQL
-INSERT INTO venue_violations
-SELECT venues.id, violations.id, all_data.inspection_date
+INSERT INTO venue_violations (venue_id, violation_id, violation_date, created_at, updated_at)
+SELECT venues.id AS venue_id, violations.id AS violation_id, all_data.inspection_date AS violation_date, NOW(), NOW()
 FROM all_data
 LEFT JOIN venues ON venues.camis = all_data.camis
 LEFT JOIN violations ON violations.violation_code = all_data.violation_code
+WHERE all_data.inspection_date > '2013-12-31'
+SQL
+
+sql.execute <<-SQL
+UPDATE venues SET grade = c.grade
+FROM
+(SELECT b.camis, b.grade, b.grade_date FROM (
+  SELECT camis, MAX(grade_date) max_grade_date
+  FROM all_data
+  WHERE grade_date > '2013-12-31'::date
+  GROUP BY camis
+) a LEFT JOIN all_data b ON a.camis = b.camis AND a.max_grade_date = b.grade_date
+GROUP BY b.camis, b.grade, b.grade_date) c
+WHERE venues.camis = c.camis
 SQL
 
 __END__
