@@ -27,9 +27,9 @@ include JSON
 		origin = {lat: origin_address.lat, lng: origin_address.lng}
 		
 		# Calling 4^2 API for 30 restaurants close to address
-		@results = HTTParty.get("https://api.foursquare.com/v2/venues/explore?client_id=#{ENV["FOURSQUARE_CLIENT_ID"]}&client_secret=#{ENV["FOURSQUARE_CLIENT_SECRET"]}&v=20150223&ll=#{origin[:lat]},#{origin[:lng]}&section=food")
+		results = HTTParty.get("https://api.foursquare.com/v2/venues/explore?client_id=#{ENV["FOURSQUARE_CLIENT_ID"]}&client_secret=#{ENV["FOURSQUARE_CLIENT_SECRET"]}&v=20150223&ll=#{origin[:lat]},#{origin[:lng]}&section=food")
 		
-		result_array = @results["response"]["groups"][0]["items"]
+		result_array = results["response"]["groups"][0]["items"]
 
 		# Parsing through 4^2 and creating an array of hashes
 		foursquare_array = []
@@ -60,9 +60,23 @@ include JSON
 			end
 		end
 
+
+		# venues = Venue.all
+		# returned = []
+		# venues.each do |venue|
+		# 	venue.venue_violations.each do |violation|
+		# 		if violation.violation_id == 2
+		# 			returned << venue
+		# 		end
+		# 	end
+		# end
+
+
+
+
 		respond_to do |format|
       format.html { render :index }
-      format.json { render json: @matches}
+      format.json { render json: matches}
     end
 		# render json: @venues
 	end

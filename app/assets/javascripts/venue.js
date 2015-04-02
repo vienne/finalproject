@@ -1,168 +1,191 @@
 console.log("diiirrrrrty");
 var map;
+var infowindow;
+var marker;
+var markers = [];
 
 //GOOGLE MAP JAVASCRIPT
-function initialize() {
+function initialize () {
+  var myLatLng = new google.maps.LatLng(40.7393080, -73.9894290);
+  
   var mapOptions = {
     zoom: 13,
-    center: new google.maps.LatLng(40.7393080, -73.9894290)
+    center: myLatLng
   };
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  infowindow = new google.maps.InfoWindow();
+
+  var styles = [
+    {
+      "featureType": "all",
+      "elementType": "geometry",
+      "stylers": [
+          {
+              "visibility": "off"
+          }
+      ]
+    },
+    {
+      "featureType": "all",
+      "elementType": "labels",
+      "stylers": [
+          {
+              "visibility": "off"
+          }
+      ]
+    },
+    {
+      "featureType": "landscape",
+      "elementType": "all",
+      "stylers": [
+          {
+              "color": "#f2f2f2"
+          },
+          {
+              "visibility": "on"
+          }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "elementType": "labels.text",
+      "stylers": [
+          {
+              "visibility": "off"
+          }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "geometry",
+      "stylers": [
+          {
+              "visibility": "on"
+          },
+          {
+              "color": "#000000"
+          }
+      ]
+    }
+  ]
+  
+  var styledMap = new google.maps.StyledMapType(styles,
+    {name: "Styled Map"});
+
+  map.mapTypes.set('map_style', styledMap);
+  map.setMapTypeId('map_style');
+}
+
+function renderMap(latitude, longitude) {
+  var mapOptions = {
+    zoom: 16,
+    center: new google.maps.Latlng(latitude,longitude)
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+}
+
+var geocodeAddress = function (address) {
+  $.ajax ({
+    url: '/venues/near',
+    dataType: 'json',
+    data: {
+      location: {
+        address: address
+      }
+    },
+    success: function(data) {
+     //  if (data == undefined){
+     // alert("please go fuck thyself");}
+      deleteMarkers();
+      createMarkers(data);
+    }  
+  })
+}
+
+function setAllMap(map) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(map);
+  }
+}
+
+function clearMarkers() {
+  setAllMap(null);
+}
+
+var deleteMarkers = function () {
+  clearMarkers();
+  markers = [];
+}
+
+
+
+var createMarkers = function (data) {
+  data.forEach(function(data){
+
+    var lat = data["venue"]["latitude"];
+    var lng = data["venue"]["longitude"];
+
+    var pos = new google.maps.LatLng(lat, lng);
+    
+    marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      name: data["venue"]["name"],
+      cuisine: data["venue"]["cuisine"],
+      address: data["venue"]["address"],
+      grade: data["venue"]["grade"]
+
+    });
+    var content = "Name: " + marker.name + "</br>" + "Cuisine: " + marker.cuisine + "</br>" + "Address: " + marker.address + "</br>" + "Grade: " + marker.grade;
+    google.maps.event.addListener(marker, 'click', function(){
+      infowindow.setContent(content);
+      infowindow.open(map, this);
+    })
+ 
+   
+    markers.push(marker);
+
+  });
+
+
+  var centerLat = data[0]["venue"]["latitude"];
+  var centerLng = data[0]["venue"]["longitude"];
+  
+
+  // setCenter(latlng:)
+  map.setZoom(15);
+  map.setCenter(new google.maps.LatLng(centerLat, centerLng));
+  
+
 };
 
 
-function renderMap(latitude,longitude) {
-  var mapOptions = {
-    zoom: 13,
-    center: new google.maps.Latlng(latitude,longitude)
-  }
-   map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+function renderInfo(map,ctx){
+  
+  infowindow.setContent('blah');
+  infowindow.open(map, ctx);
 }
+// FUNCTIONS4LYFE
 
-$(function(){
+$(function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' + '&signed_in=true&callback=initialize';
   document.body.appendChild(script);
-  //
+  
+  // jQuery that needs to GRAB SHIT GOES HERE
 
   $('#address-form').on('submit', function(e){
       e.preventDefault();
      var address = this.address.value
      geocodeAddress(address);
-
   })
 })
 
 
-var geocodeAddress = function(address) {
-  $.ajax ({
-      url: '/venues/near',
-      dataType: 'json',
-      data: {location: {address: address}},
-      success: function(data){
-        console.log(data);
-     
-      }
-    })
-}
-
-// var parseFour = function(data) {
-//   var base = data["response"]["groups"][0]["items"][i]["venue"]["name"]
 
 
-//   return {
-//     name: base[0]["venue"]["name"]
-//   }
-// }
-
-// STEP 1 = GEOCODE address on submit from the form
-// STEP 2 = make ajax call to venue#near to grab a list of restaurants from my own database
-// STEP 3 = ON SUCCESS, make ajax call to FourSQ to get a list of restaurants near the input location
-// STEP 4 = upon success, compare the list of venues from FourSQ and my own database, IF IT MATCHES, render somehow. 
-
-//stuff FourSQ needs:
-// var foursquareUrl = "https://api.foursquare.com/v2/venues/search";
-
-// var version = "&v=20150223&ll";
-// var restaurant = "&query=restaurants"
-// // var query = clientID + clientSecret + version 
-
-// //stuff Google geocoding needs: 
-// var googleUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="
-
-
-
-// var everythingElse = function(address) {
-
-//     $.ajax ({
-//       url: googleUrl + origin + "&key=",
-//       dataType: 'json',
-//       success: function(data){
-//         //ajax call to my own database
-//         $.ajax ({
-//           url: '/venues/near',
-//           data: data["results"][0]["geometry"]["location"],
-//           dataType: 'json',
-//           success: function(data){
-//             // ajax call to foursquare
-//             $.ajax({
-//               // is data the lat lng? 
-//               url: foursquareUrl + query + data + "&query=restaurants",
-//               dataType: 'json',
-//               success: function(data){
-
-       
-//           }
-
-//         })
-//       }
-
-//     })
-// })
-// }
-
-// var getFourSquareResults = function(local_venues) {
-//   local_venues.forEach(function(venue){
-//     //need to get local_venues lat and long
-//     latitude = 
-//     longitude = 
-
-//      var baseURL = "https://api.foursquare.com/v2/venues/search";
-//       var clientID = "?client_id=#{ENV['FOURSQUARE_CLIENT_ID']";
-//       var clientSecret = "&client_secret=#{ENV['FOURSQUARE_CLIENT_SECRET']";
-//       var version = "&v=20150223";
-//       var latlng = "&ll="
-//       var query = clientID + clientSecret + version + latlng 
-
-//     $.ajax({
-//         getResults(query);
-//         url: baseUrl + query
-//         type: 'GET',
-//         dataType: 'json',
-//         success: function (data) {
-
-
-
-//   }
-
-//   )}
-
-// var baseURL = "https://api.foursquare.com/v2/venues/search";
-// var clientID = "?client_id=#{ENV['FOURSQUARE_CLIENT_ID']";
-// var clientSecret = "&client_secret=#{ENV['FOURSQUARE_CLIENT_SECRET']";
-// var version = "&v=20150223";
-// var latlng = "&ll="
-// var query = clientID + clientSecret + version + latlng 
-//   getResults(query);
-
-
-
-// function getResults (query) {
-//   $.ajax({
-//   url: baseURL + query,
-//   dataType: 'json',
-//   success: function(data) {
-//     console.log(data)
-//     renderResults( data );
-//     // logResults( data );
-//     }
-//   });
-// };
-
-
-
-
-
-// var myLatlng = new google.maps.LatLng(40.7393080, -73.9894290);
-
-// var marker = new google.maps.Marker({
-//     position: myLatlng,
-//     title:"Hello World!"
-// });
-
-// // To add the marker to the map, call setMap();
-// marker.setMap(map);
 
 

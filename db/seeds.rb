@@ -54,6 +54,20 @@ WHERE all_data.inspection_date > '2013-12-31'
 SQL
 
 sql.execute <<-SQL
+WITH cuisines AS 
+	(
+	SELECT camis AS cam, cuisine AS cui 
+	FROM all_data
+	GROUP BY camis, cuisine
+	)
+UPDATE venues
+SET cuisine = cui
+FROM cuisines
+WHERE venues.camis = cam
+SQL
+
+
+sql.execute <<-SQL
 UPDATE venues SET grade = c.grade
 FROM
 (SELECT b.camis, b.grade, b.grade_date FROM (
@@ -68,73 +82,3 @@ SQL
 
 __END__
 
-
-# require 'date'
-
-# Venue.delete_all
-
-# json_venues = File.read('db/venues.json')
-
-# parsed_venues = JSON.parse(json_venues)
-
-# venue_data = parsed_venues['data']
-
-# ### CREATE THE VENUES ###
-
-
-# venues = venue_data.map do |violation|
-# 	# you want to return just the data about the venue
-# 	# no data aboutviolations
-# end
-
-# # grab unique venues
-# venues.uniq!
-
-# venues.each do |venue|
-# 	Venue.create
-# end
-
-
-
-# ### CREATE THE VIOLATIONS ###
-
-# current_violations = venue_data.select do |violation|
-# 	# only select the violations after 
-# 	# the right date
-# end
-
-# Venue.all.each do |venue|
-# 	venue_violations = current_violations.select do |violation|
-# 		# select all the violations whos name
-# 		# matches the venue name
-# 	end
-
-# 	venue_violations.each do |violation|
-# 		Violation.create
-# 	end
-# end
-
-
-# violations.each do |venue|
-#   address_hash = JSON.parse(venue[7])
-#   address = violations[12] + " " + violations[13]
-
-#   # GEOCODE IN HERE? 
-
-#   if Date.parse(venue[]) > Date.parse('2013-12-31')
-
-#   	date = Date.parse(venue[])
-
-#   	Venue.create({
-# 		  name: venue[10],
-# 		  boro: venue[11],
-# 		  address: address,
-# 		  zip: venue[14],
-# 		  cuisine: venue[16],
-# 		  inspection_date: date,
-# 		  phone: venue[15]
-#   	})
-# 	end
-# end
-
-# [[1, 2, 3,], [1, 2, 3], [1,2,3]]
