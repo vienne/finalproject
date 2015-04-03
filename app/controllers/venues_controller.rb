@@ -11,6 +11,8 @@ include JSON
 
 		@venues = Venue.where(latitude: (origin_lat - (1/345.00)..origin_lat + (1/345.00)), longitude: (origin_lng - (1/345.00)..origin_lng + (1/345.00)))
 
+		@violations = Violation.all
+
 		respond_to do |format|
       format.html { render :index }
       format.json { render json: @venues }
@@ -20,7 +22,7 @@ include JSON
 	def near
 		# lat, lng = 40.7393080, -73.9894290
 		# lat, lng = near_params.lat, near_params.lng
-		
+		@violations = Violation.all 
 		# Geocoding the Address
 		origin_address = Geokit::Geocoders::MultiGeocoder.geocode(params[:location][:address])
 		
@@ -47,19 +49,26 @@ include JSON
 		end
 
 		# Finding restaurants within 4 blocks of address from my db
-		@venues = Venue.where(latitude: (origin[:lat] - (1/345.00)..origin[:lat] + (1/345.00)), longitude: (origin[:lng] - (1/345.00)..origin[:lng] + (1/345.00)))
+		# @venues = Venue.where(latitude: (origin[:lat] - (1/345.00)..origin[:lat] + (1/345.00)), longitude: (origin[:lng] - (1/345.00)..origin[:lng] + (1/345.00)))
+
+
+		@venues = Venue.where(latitude: (origin[:lat] - (1/200.00)..origin[:lat] + (1/200.00)), longitude: (origin[:lng] - (1/200.00)..origin[:lng] + (1/200.00)))
 
 		# Finding matches between 4^2 query and my db
+		
+		# @venues.each do |venue|
+		# 	venue << venue.violations
+		# end
+
 		matches = []
 
 		@venues.each do |venue|
 			foursquare_array.each do |four|
 				if venue[:name] == four[:name]
-					matches << {venue: venue, foursquare: four}
+					matches << {venue: venue, foursquare: four, violations: venue.violations}
 				end
 			end
 		end
-
 
 		# venues = Venue.all
 		# returned = []
@@ -70,9 +79,6 @@ include JSON
 		# 		end
 		# 	end
 		# end
-
-
-
 
 		respond_to do |format|
       format.html { render :index }

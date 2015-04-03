@@ -80,5 +80,10 @@ GROUP BY b.camis, b.grade, b.grade_date) c
 WHERE venues.camis = c.camis
 SQL
 
+
+sql.execute <<-SQL
+UPDATE venues SET grade =  REPLACE(grade, 'Z', 'Grade Pending') 
+SQL
+
 __END__
 

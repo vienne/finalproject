@@ -96,10 +96,14 @@ var geocodeAddress = function (address) {
       }
     },
     success: function(data) {
-     //  if (data == undefined){
-     // alert("please go fuck thyself");}
-      deleteMarkers();
-      createMarkers(data);
+       deleteMarkers();
+  
+      if (data.length === 0){
+        $("#error").slideToggle();
+      } else {
+        createMarkers(data);
+      }
+
     }  
   })
 }
@@ -123,41 +127,46 @@ var deleteMarkers = function () {
 
 var createMarkers = function (data) {
   data.forEach(function(data){
+    var venueViolations = [];
+      data["violations"].forEach(function(violation){
+        venueViolations.push(violation)
+      })
+
+    var number = venueViolations.length;
 
     var lat = data["venue"]["latitude"];
     var lng = data["venue"]["longitude"];
-
     var pos = new google.maps.LatLng(lat, lng);
-    
     marker = new google.maps.Marker({
       position: pos,
       map: map,
       name: data["venue"]["name"],
+      url: data["foursquare"]["url"],
       cuisine: data["venue"]["cuisine"],
       address: data["venue"]["address"],
-      grade: data["venue"]["grade"]
-
+      grade: data["venue"]["grade"],
+      checkins: data["foursquare"]["checkins"],
+      violations: number
     });
-    var content = "Name: " + marker.name + "</br>" + "Cuisine: " + marker.cuisine + "</br>" + "Address: " + marker.address + "</br>" + "Grade: " + marker.grade;
+
+    var content = "Name: " + marker.name + "</br>" + "URL: " + '<a href="'+ marker.url +'">visit the website</a>' + "</br>" + "Cuisine: " + marker.cuisine + "</br>" + "Address: " + marker.address + "</br>" + "Grade: " + marker.grade + "</br>" + "FourSquare Checkins: " + marker.checkins + "</br>" + "# of Violations: " + '<a href="#" id="violation-number">'+ marker.violations + '</a>';
+       
     google.maps.event.addListener(marker, 'click', function(){
       infowindow.setContent(content);
       infowindow.open(map, this);
     })
- 
-   
     markers.push(marker);
-
   });
+  
 
+  
 
   var centerLat = data[0]["venue"]["latitude"];
   var centerLng = data[0]["venue"]["longitude"];
   
-
   // setCenter(latlng:)
-  map.setZoom(15);
+  map.setZoom(16);
   map.setCenter(new google.maps.LatLng(centerLat, centerLng));
-  
 
 };
 
@@ -181,7 +190,16 @@ $(function () {
       e.preventDefault();
      var address = this.address.value
      geocodeAddress(address);
-  })
+  });
+
+  $('#close-error').on('click', function() {
+    $("#error").slideToggle();
+  });
+
+  $('#violation-number').on('click',function() { $('#violation-div').slideToggle();
+      })
+
+     
 })
 
 

@@ -1,5 +1,4 @@
 
-
 @font-face {
     font-family: '3dumbregular';
     src: url('3Dumb-webfont.eot');
@@ -12,32 +11,110 @@
 
 }
 
-html, #map-canvas { 
- 	height: 80%;
+#map-canvas { 
+ 	height: 90%;
  	width: 90%;
  	display: block;
 
  	margin-left: auto;
  	margin-right: auto; 
- 	padding: 0;
+ 	margin-bottom: 70px;
+ 	padding: 20px;
+ 	border-radius: 35px;
+ 
  }
 
-
- 
 html, body { 
 	height: 100%; 
 	margin: 0; 
 	padding: 0 
 }
+
+#footer-mouse {
+	height: 50px;
+	width: auto;
+	margin-left: 100px;
+}
  
 h1 {
     font-family: '3dumbregular';
-    font-size: 50px;
+    font-size: 70px;
     margin-left: 20px;
+    margin: 10px;
+    margin-bottom: 5px;
+    /*display: inline-block;
+    float: left;
+    clear: right;*/
   }
+
+h2 {
+	font-size: 30px;
+	font-family: 'Spinnaker';
+	margin-top:5px;
+}
+
+h3 {
+	font-size: 22px;
+	font-family: 'Spinnaker';
+}
+
+
+form.address-form{
+	text-align: center;
+}
+
+input.submit-button {
+
+	height: 200px;
+  width: 100px;
+  cursor: pointer;
+}
 
 #rat {
 	width: 30%;
 	height: auto;
+	display: inline-block;
+	float: left;
+	margin-right: 20px;
+	margin-left: 20px;
 }
 
+#error {
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	top: 15%;
+	left: 30%;
+	background-color: black;
+	color: white;
+	border-radius: 10px;
+	text-align: center;
+	display: none;
+	z-index: 1;
+}
+
+#close-error {
+	margin: 0 auto;
+	width: 80%;
+	padding: 5px;
+	border: 3px solid white;
+	font-family: 'Spinnaker';
+}
+
+#close-error:hover{
+	background-color: white;
+	color: black;
+}
+
+/*#violations-div {
+	position: absolute;
+	width: 500px;
+	height: 400px;
+	top: 15%;
+	left: 30%;
+	background-color: black;
+	color: white;
+	border-radius: 10px;
+	text-align: center;
+	display:none;
+}*/
