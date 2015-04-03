@@ -53,7 +53,7 @@ include JSON
 
 
 		@venues = Venue.where(latitude: (origin[:lat] - (1/200.00)..origin[:lat] + (1/200.00)), longitude: (origin[:lng] - (1/200.00)..origin[:lng] + (1/200.00)))
-
+		
 		# Finding matches between 4^2 query and my db
 		
 		# @venues.each do |venue|
@@ -65,7 +65,7 @@ include JSON
 		@venues.each do |venue|
 			foursquare_array.each do |four|
 				if venue[:name] == four[:name]
-					matches << {venue: venue, foursquare: four, violations: venue.violations}
+					matches << {venue: venue, foursquare: four, violations: venue.violations.uniq}
 				end
 			end
 		end

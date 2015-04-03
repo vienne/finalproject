@@ -16,7 +16,12 @@
 <body>
 
 <%= yield %>
+  
 	<div id="map-canvas"></div>
 
+  <div class="random-violations">
+    <% random = @violations.sample %>
+    <h3>Random Violation For Thought: <%= random.violation_description %></h3>
+  </div>
 </body>
 </html>

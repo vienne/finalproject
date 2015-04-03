@@ -123,7 +123,7 @@ var deleteMarkers = function () {
   markers = [];
 }
 
-
+var currentViolations = {};
 
 var createMarkers = function (data) {
   data.forEach(function(data){
@@ -131,6 +131,8 @@ var createMarkers = function (data) {
       data["violations"].forEach(function(violation){
         venueViolations.push(violation)
       })
+
+    currentViolations[data["venue"]["camis"]] = venueViolations;
 
     var number = venueViolations.length;
 
@@ -149,7 +151,7 @@ var createMarkers = function (data) {
       violations: number
     });
 
-    var content = "Name: " + marker.name + "</br>" + "URL: " + '<a href="'+ marker.url +'">visit the website</a>' + "</br>" + "Cuisine: " + marker.cuisine + "</br>" + "Address: " + marker.address + "</br>" + "Grade: " + marker.grade + "</br>" + "FourSquare Checkins: " + marker.checkins + "</br>" + "# of Violations: " + '<a href="#" id="violation-number">'+ marker.violations + '</a>';
+    var content = "Name: " + marker.name + "</br>" + "URL: " + '<a href="'+ marker.url +'">visit the website</a>' + "</br>" + "Cuisine: " + marker.cuisine + "</br>" + "Address: " + marker.address + "</br>" + "Grade: " + marker.grade + "</br>" + "FourSquare Checkins: " + marker.checkins + "</br>" + "# of Violations: " + '<a href="#" class="violation-number" data-camis="' + data["venue"]["camis"] + '">'+ marker.violations + '</a>';
        
     google.maps.event.addListener(marker, 'click', function(){
       infowindow.setContent(content);
@@ -196,11 +198,29 @@ $(function () {
     $("#error").slideToggle();
   });
 
-  $('#violation-number').on('click',function() { $('#violation-div').slideToggle();
-      })
-
+  $('body').on('click', '.violation-number', function() { 
+    
+    violationList =  currentViolations[$(this).data('camis')];
+  
+    var $div = $('#violation-div');
+    var $violationsUl = $('<ul class="violationsUl">Violations From Within the Last Year: </ul>');
+    $div.append($violationsUl);
+    $div.empty();
+    
+    violationList.forEach(function(violation){
+      var eachViolation = violation["violation_description"];
+      $violationsUl.append('<li>' + eachViolation + '</li>')
      
+    })
+
+    $('#violation-div').slideToggle();  
+
+    $('#close-error').on('click', function() {
+    $("#violation-div").slideToggle();
+  });
+
 })
+})  
 
 
 

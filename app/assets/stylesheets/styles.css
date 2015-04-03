@@ -15,13 +15,11 @@
  	height: 90%;
  	width: 90%;
  	display: block;
-
  	margin-left: auto;
  	margin-right: auto; 
  	margin-bottom: 70px;
  	padding: 20px;
  	border-radius: 35px;
- 
  }
 
 html, body { 
@@ -54,21 +52,25 @@ h2 {
 }
 
 h3 {
-	font-size: 22px;
+	font-size: 24px;
 	font-family: 'Spinnaker';
+	display: inline;
 }
 
+ input#address {
+ 	width: 400px;
+ 	height: 24px;
+ 	border-radius: 3px;
+ 	font-size: 18px
+ }
 
-form.address-form{
-	text-align: center;
-}
-
-input.submit-button {
-
+input#submit-button {
+	display: inline;
 	height: 200px;
   width: 100px;
   cursor: pointer;
-}
+  }
+
 
 #rat {
 	width: 30%;
@@ -101,20 +103,29 @@ input.submit-button {
 	font-family: 'Spinnaker';
 }
 
+.error h3 {
+	font-family: 'Spinnaker';
+	color: white;
+}
+
 #close-error:hover{
 	background-color: white;
 	color: black;
 }
 
-/*#violations-div {
+#violation-div {
 	position: absolute;
-	width: 500px;
-	height: 400px;
-	top: 15%;
-	left: 30%;
+	width: 100%;
+	height: 700px;
+
 	background-color: black;
 	color: white;
-	border-radius: 10px;
+
 	text-align: center;
-	display:none;
-}*/
+	z-index: 1;
+	display: none;
+}
+
+.violationsUl {
+	color: white;
+}
