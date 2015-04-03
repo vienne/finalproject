@@ -5,24 +5,17 @@ include HTTParty
 include JSON
 
 	def index
-		origin_address = Geokit::Geocoders::MultiGeocoder.geocode(params[:origin])
-		origin_lng = origin_address.lng || -73.9894290
-		origin_lat = origin_address.lat || 40.7393080
-
-		@venues = Venue.where(latitude: (origin_lat - (1/345.00)..origin_lat + (1/345.00)), longitude: (origin_lng - (1/345.00)..origin_lng + (1/345.00)))
-
-		@violations = Violation.all
+		@violation = Violation.order("RANDOM()").first
 
 		respond_to do |format|
       format.html { render :index }
-      format.json { render json: @venues }
     end
 	end
 
 	def near
 		# lat, lng = 40.7393080, -73.9894290
 		# lat, lng = near_params.lat, near_params.lng
-		@violations = Violation.all 
+		@violation = Violation.order("RANDOM()").first 
 		# Geocoding the Address
 		origin_address = Geokit::Geocoders::MultiGeocoder.geocode(params[:location][:address])
 		
@@ -53,7 +46,7 @@ include JSON
 
 
 		@venues = Venue.where(latitude: (origin[:lat] - (1/200.00)..origin[:lat] + (1/200.00)), longitude: (origin[:lng] - (1/200.00)..origin[:lng] + (1/200.00)))
-		
+
 		# Finding matches between 4^2 query and my db
 		
 		# @venues.each do |venue|
