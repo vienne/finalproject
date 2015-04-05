@@ -160,9 +160,6 @@ var createMarkers = function (data) {
     markers.push(marker);
   });
   
-
-  
-
   var centerLat = data[0]["venue"]["latitude"];
   var centerLng = data[0]["venue"]["longitude"];
   
@@ -194,32 +191,33 @@ $(function () {
      geocodeAddress(address);
   });
 
-  $('#close-error').on('click', function() {
-    $("#error").slideToggle();
-  });
+  // $('#close-error').on('click', function() {
+  //   $("#error").slideToggle();
+  // });
 
-  $('body').on('click', '.violation-number', function() { 
-    
-    violationList =  currentViolations[$(this).data('camis')];
   
+////
+  $('body').on('click', '.violation-number', function() { 
+    $('#violation-div').slideToggle();  
+
+    violationList =  currentViolations[$(this).data('camis')];
+
     var $div = $('#violation-div');
-    var $violationsUl = $('<ul class="violationsUl">Violations From Within the Last Year: </ul>');
-    $div.append($violationsUl);
     $div.empty();
+    var $violationsUl = $('<ul class="violationsUl">violations from within the last year: </ul>');
+    $div.append($violationsUl);
     
     violationList.forEach(function(violation){
       var eachViolation = violation["violation_description"];
-      $violationsUl.append('<li>' + eachViolation + '</li>')
-     
+      $violationsUl.append('<li class="violationsLi">' + eachViolation + '</li>')
     })
+    $closeDiv = $('<div></div>', {id:"close-violation"}).text("click me and i shall close this here div").appendTo($div)
+    $closeDiv.on('click', function() {
+      $("#violation-div").slideToggle();
+    })
+    
+ });
 
-    $('#violation-div').slideToggle();  
-
-    $('#close-error').on('click', function() {
-    $("#violation-div").slideToggle();
-  });
-
-})
 })  
 
 

@@ -1,25 +1,16 @@
 
-@font-face {
-    font-family: '3dumbregular';
-    src: url('3Dumb-webfont.eot');
-    src: url('3Dumb-webfont.eot?#iefix') format('embedded-opentype'),
-         url('3Dumb-webfont.woff') format('woff'),
-         url('3Dumb-webfont.ttf') format('truetype'),
-         url('3Dumb-webfont.svg#3dumbregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
 #map-canvas { 
- 	height: 90%;
- 	width: 90%;
+
+ 	height: 470px;
+ 	width: 1300px;
  	display: block;
+ 	margin-top: 15px;
  	margin-left: auto;
- 	margin-right: auto; 
- 	margin-bottom: 70px;
+  margin-right: auto;
+ 	margin-bottom: 10px;
  	padding: 20px;
  	border-radius: 35px;
+ 
  }
 
 html, body { 
@@ -33,43 +24,37 @@ html, body {
 	width: auto;
 	margin-left: 100px;
 }
+
  
 h1 {
-    font-family: '3dumbregular';
+    font-family:'Cabin Sketch', cursive;
+    font-weight: 500;
     font-size: 70px;
-    margin-left: 20px;
+    margin-left: 60px;
     margin: 10px;
     margin-bottom: 5px;
-    /*display: inline-block;
-    float: left;
-    clear: right;*/
   }
 
 h2 {
 	font-size: 30px;
-	font-family: 'Spinnaker';
+	font-family: 'Cabin Sketch', cursive;
 	margin-top:5px;
+	margin-bottom: 10px;
 }
 
 h3 {
-	font-size: 24px;
-	font-family: 'Spinnaker';
-	display: inline;
+	margin-bottom: 0;
 }
 
- input#address {
+form#address-form {
+	float: left;
+}
+input#address {
  	width: 400px;
  	height: 24px;
  	border-radius: 3px;
  	font-size: 18px
  }
-
-input#submit-button {
-	display: inline;
-	height: 200px;
-  width: 100px;
-  cursor: pointer;
-  }
 
 
 #rat {
@@ -84,9 +69,9 @@ input#submit-button {
 #error {
 	position: absolute;
 	width: 500px;
-	height: 500px;
-	top: 15%;
-	left: 30%;
+	height: 400px;
+	top: 34%;
+	left: 33%;
 	background-color: black;
 	color: white;
 	border-radius: 10px;
@@ -95,17 +80,18 @@ input#submit-button {
 	z-index: 1;
 }
 
+#error h1{
+	font-size: 60px;
+	margin-top: 38px;
+}
+
 #close-error {
 	margin: 0 auto;
+	margin-top: 40px;
 	width: 80%;
 	padding: 5px;
 	border: 3px solid white;
-	font-family: 'Spinnaker';
-}
-
-.error h3 {
-	font-family: 'Spinnaker';
-	color: white;
+	font-family: 'Cabin Sketch', cursive;;
 }
 
 #close-error:hover{
@@ -115,17 +101,73 @@ input#submit-button {
 
 #violation-div {
 	position: absolute;
-	width: 100%;
-	height: 700px;
-
+	width: 1325px;
+	height: 510px;
 	background-color: black;
 	color: white;
-
-	text-align: center;
-	z-index: 1;
+	font-size: 14px;
+	padding: 8px;
+	border-radius: 35px;
+	margin-left: 40px;
+	display: block;
+ 	z-index: 1;
 	display: none;
+	margin-top: 27px;
+}
+
+#close-violation {
+	margin: 0 auto;
+	margin-top: 40px;
+	width: 80%;
+	padding: 5px;
+	border: 3px solid white;
+	font-family: 'Cabin Sketch', cursive;
+	color: white;
+}
+
+#close-violation:hover{
+	background-color: white;
+	color: black;
 }
 
 .violationsUl {
-	color: white;
+	font-family: 'Cabin Sketch';
+	font-size: 30px;
 }
+
+.violationsLi  {
+	color: white;
+	text-decoration: none;
+	font-size: 14px;
+	list-style-type: none;
+}
+
+ul {
+	color: white;
+	text-decoration: none;
+}
+
+
+p {
+	display: inline-block;
+	margin-left: 57px;
+	margin-right: 57px;
+	margin-bottom: 30px;
+	font-family: 'Spinnaker';
+
+}
+
+input#submit-button {
+  display: inline;
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  padding-top: 4px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+

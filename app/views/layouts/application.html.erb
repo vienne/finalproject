@@ -7,6 +7,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <link href='http://fonts.googleapis.com/css?family=Spinnaker' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:400,700' rel='stylesheet' type='text/css'>
 
   <%= csrf_meta_tags %>
 
@@ -17,9 +18,10 @@
 <%= yield %>
   
 	<div id="map-canvas"></div>
-
+<footer>
   <div class="random-violations">    
-    <h3>Random Violation For Thought: <%= @violation.violation_description %></h3>
+    <p>Random Violation For Thought: <%= @violation.violation_description %></p>
   </div>
+</footer>
 </body>
 </html>
