@@ -11,17 +11,6 @@ ActiveRecord::Base.establish_connection(
     :database => "final_project_development"
 )
 
-
-# base url = https://api.foursquare.com/v2/venues/search?
-
-# client_id = FLSSZP5XK1MWVQQKNULMCIMI3XKSNROMWNRFFENSYP3GD51D
-
-# &client_secret = TMRJQMZS3LGSF3YHY3ZGP5UBXMAGWOMLE4VQRF0M2HH3RDFT
-
-# &v = 20150223
-
-# &ll = 40.7211430,-73.9838570
-
 namespace :db do
 	desc "get_geocode"
 	task :get_geocode do

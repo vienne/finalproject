@@ -41,17 +41,10 @@ include JSON
 
 		end
 
-		# Finding restaurants within 4 blocks of address from my db
-		# @venues = Venue.where(latitude: (origin[:lat] - (1/345.00)..origin[:lat] + (1/345.00)), longitude: (origin[:lng] - (1/345.00)..origin[:lng] + (1/345.00)))
-
 
 		@venues = Venue.where(latitude: (origin[:lat] - (1/200.00)..origin[:lat] + (1/200.00)), longitude: (origin[:lng] - (1/200.00)..origin[:lng] + (1/200.00)))
 
-		# Finding matches between 4^2 query and my db
-		
-		# @venues.each do |venue|
-		# 	venue << venue.violations
-		# end
+
 
 		matches = []
 
@@ -63,21 +56,12 @@ include JSON
 			end
 		end
 
-		# venues = Venue.all
-		# returned = []
-		# venues.each do |venue|
-		# 	venue.venue_violations.each do |violation|
-		# 		if violation.violation_id == 2
-		# 			returned << venue
-		# 		end
-		# 	end
-		# end
 
 		respond_to do |format|
       format.html { render :index }
       format.json { render json: matches}
     end
-		# render json: @venues
+
 	end
 
 	private
