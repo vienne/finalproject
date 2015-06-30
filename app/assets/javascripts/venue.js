@@ -191,9 +191,9 @@ $(function () {
      geocodeAddress(address);
   });
 
-  // $('#close-error').on('click', function() {
-  //   $("#error").slideToggle();
-  // });
+  $('#close-error').on('click', function() {
+    $("#error").slideToggle();
+  });
 
   
 ////
@@ -211,8 +211,11 @@ $(function () {
       var eachViolation = violation["violation_description"];
       $violationsUl.append('<li class="violationsLi">' + eachViolation + '</li>')
     })
+    
     $closeDiv = $('<div></div>', {id:"close-violation"}).text("click me and i shall close this here div").appendTo($div)
+    
     $closeDiv.on('click', function() {
+       console.log('closed')
       $("#violation-div").slideToggle();
     })
     
